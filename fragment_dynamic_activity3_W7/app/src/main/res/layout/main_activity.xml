@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:padding="10dp" >
+    <TextView
+        android:id="@+id/textView1Main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#77ffff00"
+        android:text="Main Layout ..."
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/button1MainShowRed"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ADD new RedFragment" />
+        <Button
+            android:id="@+id/button2MainPop"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="POP Trans BackStack" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/button4MainReplace"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="REPLACE new RedFragment" />
+        <Button
+            android:id="@+id/button3MainRemove"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="REMOVE RedFragment" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/main_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical" />
+
+</LinearLayout>
