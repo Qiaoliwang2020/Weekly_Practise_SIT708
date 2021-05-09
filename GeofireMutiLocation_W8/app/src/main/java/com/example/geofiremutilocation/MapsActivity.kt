@@ -8,6 +8,7 @@ import android.content.pm.PermissionInfo
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.location.Location
+import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +28,8 @@ import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -70,20 +73,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IOnLoadLocationLis
                     fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this@MapsActivity)
                     initArea()
                     settingGeoFire()
+
+                    // add dangerous to firebase
+                    // addDangerousToFirebase()
                 }
 
                 override fun onPermissionRationaleShouldBeShown(
                     permission: PermissionRequest?,
                     token: PermissionToken?
-                ) {
-                    TODO("Not yet implemented")
-                }
+                ) {}
 
                 override fun onPermissionDenied(response: PermissionDeniedResponse?) {
                     Toast.makeText(this@MapsActivity,"You must enable this permission",Toast.LENGTH_LONG).show()
                 }
 
             }).check()
+    }
+
+    private fun addDangerousToFirebase() {
+        dangerousArea = ArrayList()
+        dangerousArea.add(LatLng(37.422,-120.084))
+        dangerousArea.add(LatLng(37.422,-120.184))
+        dangerousArea.add(LatLng(37.422,-120.284))
+
+        // submit this list to firebase
+        FirebaseDatabase.getInstance()
+            .getReference("DangerousArea")
+            .child("MyCity")
+            .setValue(dangerousArea)
+            .addOnCompleteListener{
+                Toast.makeText(this@MapsActivity,"Update",Toast.LENGTH_SHORT).show()
+
+            }.addOnFailureListener{ex -> Toast.makeText(this@MapsActivity,""+ex.message,Toast.LENGTH_SHORT).show()}
     }
 
     private fun settingGeoFire() {
@@ -101,7 +122,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IOnLoadLocationLis
         // add realtime change update
         myCity!!.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -240,17 +261,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IOnLoadLocationLis
         val  NOTIFICATION_CHANNEL_ID = "edmt_multiple_location"
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID,"MyNotification",NotificationManager.IMPORTANCE_DEFAULT)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "MyNotification",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
 
             // config
             notificationChannel.description = "Channel Description"
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
-            notificationChannel.vibrationPattern = longArrayOf(0,1000,500,1000)
+            notificationChannel.vibrationPattern = longArrayOf(0, 1000, 500, 1000)
             notificationChannel.enableVibration(true)
 
             notificationManager.createNotificationChannel(notificationChannel)
+        }
 
             val builder = NotificationCompat.Builder(this,NOTIFICATION_CHANNEL_ID)
 
@@ -262,11 +288,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, IOnLoadLocationLis
 
             val notification = builder.build()
             notificationManager.notify(java.util.Random().nextInt(),notification)
-        }
     }
-    override fun onGeoQueryReady() {
-        TODO("Not yet implemented")
-    }
+
+
+
+    override fun onGeoQueryReady() {}
 
     override fun onKeyEntered(key: String?, location: GeoLocation?) {
         sendNotification("EDMTDev",String.format("%s entered the dangerous area",key))
