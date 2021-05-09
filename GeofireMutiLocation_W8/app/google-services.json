@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "273728195524",
+    "project_id": "geofiremutilocation",
+    "storage_bucket": "geofiremutilocation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273728195524:android:53d1383414bdc27ebdb291",
+        "android_client_info": {
+          "package_name": "com.example.geofiremutilocation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273728195524-jfg48f25uitscpljgqvjfjvs44qgeren.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCekQPSxrqK7ZU77uT16UKq0tF94nBBzmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273728195524-jfg48f25uitscpljgqvjfjvs44qgeren.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
